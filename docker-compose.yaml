@@ -1,0 +1,25 @@
+version: '3'
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "80"
+    volumes:
+      - ./src:/app
+
+  prometheus:
+    image: quay.io/prometheus/prometheus:latest
+    ports:
+      - 9090:9090
+    volumes:
+      - "./infra/prometheus.yml:/etc/prometheus/prometheus.yml"
+
+  exporter:
+    image: hipages/php-fpm_exporter:latest
+    ports:
+      - "9253:9253"
+    environment:
+      PHP_FPM_SCRAPE_URI: "tcp://app:9000/status"
+      PHP_FPM_LOG_LEVEL: "debug"
