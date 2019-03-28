@@ -34,4 +34,13 @@ scrape_configs:
     scrape_timeout: 1s
 
     static_configs:
-      - targets: ['exporter:9253']
+      - targets: ['exporterFPM:9253']
+
+  - job_name: 'nginx'
+
+    scrape_interval: 2s
+    scrape_timeout: 1s
+
+    static_configs:
+      - targets: ['exporterNginx:9113']
+
